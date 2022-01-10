@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.SawonMapper">
+	<!-- 추가 -->
+	<insert id="insertSawon">
+		<selectKey resultType="int" keyProperty="no" order="BEFORE">
+			select sawon_seq.nextval from dual
+		</selectKey>
+		insert into sawon values(
+			#{no}, #{num}, #{name}, #{phone}, #{rank}, #{mail})
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="deleteSawon">
+		delete from sawon where no=#{no}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="updateSawon">
+		update sawon
+		<set>
+			<if test="num!=null and num!=''">
+				num = #{num},
+			</if>
+			<if test="name!=null and name!=''">
+				name = #{name},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone = #{phone},
+			</if>
+			<if test="rank!=null and rank!=''">
+				rank = #{rank},
+			</if>
+			<if test="mail!=null and mail!=''">
+				mail = #{mail},
+			</if>
+		</set>
+		where
+		no = #{no}
+	</update>
+	
+	<!-- 이름으로 리스트 출력 -->
+	<select id="selectSawonList" resultType="Sawon">
+		select * from sawon order by name desc
+	</select>
+	
+	<!-- 검색 -->
+	<select id="selectSawonCate" resultType="Sawon">
+		select * from sawon 
+			where 
+			<if test="no!=null and no!=''">
+				no = #{no},
+			</if>
+			<if test="num!=null and num!=''">
+				num = #{num},
+			</if>
+			<if test="name!=null and name!=''">
+				name = #{name},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone = #{phone},
+			</if>
+			<if test="rank!=null and rank!=''">
+				rank = #{rank},
+			</if>
+			<if test="mail!=null and mail!=''">
+				mail = #{mail},
+			</if>
+	</select>
+	
+	<select id="selectSawon" resultType="Sawon">
+		select * from sawon where no=#{no}
+	</select>
+</mapper>
